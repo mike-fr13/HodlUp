@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "@aave/core-v3": "^1.18.0",
+    "@chainlink/contracts": "^0.6.1",
+    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
+    "@openzeppelin/contracts": "^4.9.2",
+    "@openzeppelin/test-helpers": "^0.5.16",
+    "@uniswap/v3-periphery": "^1.4.3",
+    "dotenv": "^16.1.4",
+    "hardhat": "^2.17.3"
+  }
+}

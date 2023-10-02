@@ -160,20 +160,26 @@ contract DcaHodlup is Ownable {
      * @dev It checks the status and timing of each position to determine if a swap should be executed.
      */
     function _executeIndividualDCA() internal {
+        console.log("userAddresses.length : ",userAddresses.length);
         for (uint256 i = 0; i < userAddresses.length; i++) {
             Account storage account = accounts[userAddresses[i]];
             uint256 posKeysLength = account.positionsKeys.length;
 
+            console.log("posKeysLength : ",posKeysLength);
             for (uint256 j = 0; j < posKeysLength; j++) {
                 string memory positionName = account.positionsKeys[j];
                 Position storage position = account.positions[positionName];
 
+                console.log("position.lastPurchaseTimestamp : ",position.lastPurchaseTimestamp);
+                console.log("position.interval : ",position.interval);
                 if (
                     position.status == Status.Active
                         && block.timestamp > (position.lastPurchaseTimestamp + position.interval)
                 ) {
                     uint256 remainingToSwap = position.totalAmountToSwap - position.SwappedFromBalance;
 
+                    console.log("position.amountPerSwap : ",position.amountPerSwap);
+                    console.log("remainingToSwap : ",remainingToSwap);
                     if (position.amountPerSwap > remainingToSwap) {
                         position.status = Status.Pause;
                         emit PositionStatusChanged(

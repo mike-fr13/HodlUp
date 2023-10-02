@@ -59,6 +59,30 @@ async function getTokenPairContractAdress(hodlupManager) {
 
     return positionCreated;
   }
+
+   /* retrieve DCA position created event */
+   async function getPositionStatusChanged(dcaPairContract) {
+    const [owner, account1, account2, account3, account4] = await ethers.getSigners();
+
+    const filter = dcaPairContract.filters.PositionStatusChanged;
+    const events = await dcaPairContract.queryFilter(filter, 0);
+
+    console.log("events length: ", events.length)
+
+    const positionStatusChanged = [];
+
+    events.forEach((event) => {
+      console.log("event.args : ", event.args)
+      console.log("event.args.name : ", event.args.name)
+      console.log("event.args.status : ", event.args.status)
+      console.log("event.args.date : ", event.args.date)
+      positionStatusChanged.push(event.args.name);
+      });
+    
+    console.log("positionStatusChanged : ", positionStatusChanged)
+
+    return positionStatusChanged;
+  }
   
 
 
@@ -112,6 +136,7 @@ async function mintToken(
   _user, 
   _amount) {
     console.log('mintToken - start ');
+    console.log('_amount : ',_amount);
     await (_tokenContract.mint(_user, _amount))
     console.log(`mintToken - ${_amount} token ${_tokenContract.target} mint for address ${_user}`)
 }
@@ -160,6 +185,7 @@ module.exports = {
   pause,
   getTokenPairContractAdress,
   getPositionCreated,
+  getPositionStatusChanged,
   getlastPairDCAExecutionResultEvent,
   getAbi,
   addTokenPair,

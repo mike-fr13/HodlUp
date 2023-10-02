@@ -68,56 +68,27 @@ async function main() {
 
   const hodlupManagerABI = getAbi("HodlupManager");
   const DcaHodlupABI = getAbi("DcaHodlup");
-  const MockERC20 = getAbi("MockERC20","mocks/");
-
   //console.log(hodlupManagerABI);
   const { ethers } = require("hardhat");
   const provider = ethers.provider;
   const owner = await provider.getSigner(ADD_owner);
   const hodlupManager = new ethers.Contract(HodlupManagercontractAddress, hodlupManagerABI, owner);
 
-  
-  /*
- // 1s Interval to show swap during demo
- await hodlupManager.addInterval("1");
- 
- // WEEK
- await hodlupManager.addInterval("604800");
-
- //MONTH
- await hodlupManager.addInterval("2629746");
-*/
-dcaPairContractTransaction = await hodlupManager.createDcaPaire("MOCKA_MOCKB_v0", TokenAcontractAddress, TokenBcontractAddress, MockUniswapContractAddress, 20);
-//console.log(`dcaPairContractTransaction : ${dcaPairContractTransaction}`);
-  
-await pause(5000);
- 
-dcaPairContractAddress = await getTokenPairContractAdress(hodlupManager)
-  console.log("dcaPairContractAddress : ", dcaPairContractAddress)
-
-//console.log(DcaHodlupABI);
-const mockA_mockB_v0 = new ethers.Contract(dcaPairContractAddress[0], DcaHodlupABI, owner);
-//console.log(mockA_mockB_v0);
-
-//create a dca position
-// ( _name, _totalAmountToSwap, _interval, _amountPerSwap, _dcaIterations)
-await mockA_mockB_v0.createPosition("position_nb_1",1000,60,50,0);
-
-//add allowance for this position
-const tokenAContract = new ethers.Contract(TokenAcontractAddress, MockERC20, owner);
-//console.log(owner)
-console.log("allowance :", await tokenAContract.allowance(owner.address, dcaPairContractAddress[0]))
-await tokenAContract.increaseAllowance(dcaPairContractAddress[0],1000);
-console.log("allowance :", await tokenAContract.allowance(owner.address, dcaPairContractAddress[0]))
-
-//PositionCreated(msg.sender, address(inputToken), address(outputToken), _name, block.timestamp);
-positionCreated = await getPositionCreated(mockA_mockB_v0)
-console.log("positionCreated : ", positionCreated);
-
 //execute DCA
-hodlupManager.executeSwap("MOCKA_MOCKB_v0");
-positionStatusChanged = await getPositionStatusChanged(mockA_mockB_v0)
-console.log("positionStatusChanged : ", positionStatusChanged);
+hodlupManager.executeAllSwap();
+
+dcaContractsNumber = await hodlupManager.dcaContractsNumber();
+console.log("dcaContractsNumber : ",dcaContractsNumber)
+
+for (j = 0; j < dcaContractsNumber; j++) {
+    contractName = await hodlupManager.dcaContractsNames(j);
+    console.log("name : ",contractName)
+    hodlupContractAddress =  await hodlupManager.dcaContracts(contractName);
+    console.log("hodlupContractAddress : ",hodlupContractAddress)
+    hodlUpcontract = new ethers.Contract(hodlupContractAddress, DcaHodlupABI, owner);
+    positionStatusChanged = await getPositionStatusChanged(hodlUpcontract)
+    console.log(`[${contractName}] positionStatusChanged : ${positionStatusChanged}`);
+}
 
 }
 

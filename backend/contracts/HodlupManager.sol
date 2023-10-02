@@ -13,7 +13,8 @@ import "hardhat/console.sol";
  */
 contract HodlupManager is Ownable {
     mapping(string => address) public dcaContracts;
-    string[] dcaContractsNames;
+    string[] public dcaContractsNames;
+    uint public dcaContractsNumber;
 
     /**
      * @dev Emitted when a new DCA pair is created.
@@ -54,6 +55,7 @@ contract HodlupManager is Ownable {
 
         dcaContracts[_name] = dcaContract;
         dcaContractsNames.push(_name);
+        ++dcaContractsNumber;
         emit DcaCreated(_name, dcaContract, block.timestamp);
     }
 

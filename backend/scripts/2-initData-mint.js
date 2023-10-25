@@ -82,11 +82,6 @@ async function main() {
   )
   await mintToken(
     tokenA,
-    ADD_account1,
-    Constant.TOKENA_DEPOSIT_AMOUNT
-  )
-  await mintToken(
-    tokenA,
     ADD_account2,
     Constant.TOKENA_DEPOSIT_AMOUNT
   )

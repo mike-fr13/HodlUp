@@ -90,7 +90,7 @@ async function main() {
 dcaPairContractTransaction = await hodlupManager.createDcaPaire("MOCKA_MOCKB_v0", TokenAcontractAddress, TokenBcontractAddress, MockUniswapContractAddress, 20);
 //console.log(`dcaPairContractTransaction : ${dcaPairContractTransaction}`);
   
-await pause(5000);
+//await pause(5000);
  
 dcaPairContractAddress = await getTokenPairContractAdress(hodlupManager)
   console.log("dcaPairContractAddress : ", dcaPairContractAddress)
@@ -101,7 +101,7 @@ const mockA_mockB_v0 = new ethers.Contract(dcaPairContractAddress[0], DcaHodlupA
 
 //create a dca position
 // ( _name, _totalAmountToSwap, _interval, _amountPerSwap, _dcaIterations)
-await mockA_mockB_v0.createPosition("position_nb_1",1000,60,50,0);
+await mockA_mockB_v0.createPosition("position_nb_1",1000,10,50,0);
 
 //add allowance for this position
 const tokenAContract = new ethers.Contract(TokenAcontractAddress, MockERC20, owner);
@@ -115,9 +115,11 @@ positionCreated = await getPositionCreated(mockA_mockB_v0)
 console.log("positionCreated : ", positionCreated);
 
 //execute DCA
+/*
 hodlupManager.executeSwap("MOCKA_MOCKB_v0");
 positionStatusChanged = await getPositionStatusChanged(mockA_mockB_v0)
 console.log("positionStatusChanged : ", positionStatusChanged);
+*/
 
 }
 

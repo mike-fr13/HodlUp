@@ -172,6 +172,7 @@ contract DcaHodlup is Ownable {
 
                 console.log("position.lastPurchaseTimestamp : ",position.lastPurchaseTimestamp);
                 console.log("position.interval : ",position.interval);
+                console.log("block.timestamp : ", block.timestamp);
                 if (
                     position.status == Status.Active
                         && block.timestamp > (position.lastPurchaseTimestamp + position.interval)
@@ -193,10 +194,18 @@ contract DcaHodlup is Ownable {
                     } else {
                         position.status = Status.Locked;
                         uint256 swapAmount = position.amountPerSwap;
+                        console.log("swapAmount : ",swapAmount);
+                        console.log("userAddresses[i] : ",userAddresses[i]);
+                        console.log("address(this) : ",address(this));
+                        console.log("allowance :",inputToken.allowance(userAddresses[i],address(this)));
                         SafeERC20.safeTransferFrom(inputToken, userAddresses[i], address(this), swapAmount);
+                        console.log("safeTransferFrom done !");
+                        console.log("inputToken.balanceOf(address(this)) : ",inputToken.balanceOf(address(this)));
+
 
                         uint256 swapFees = (swapAmount * swapFee) / 10000;
                         uint256 amountPerSwapAfterFees = swapAmount - swapFees;
+                        console.log("amountPerSwapAfterFees : ",amountPerSwapAfterFees);
                         uint256 resultSwap = _swap(amountPerSwapAfterFees, position.recipient);
 
                         feesBalances[inputToken] += swapFees;
@@ -235,9 +244,11 @@ contract DcaHodlup is Ownable {
      * approves the router to spend the input token, and sets the swap parameters.
      */
     function _swap(uint256 _amount, address _receiver) internal returns (uint256) {
-        require(inputToken.balanceOf(address(this)) > _amount, "Insufficient balance of origin Token");
+        require(inputToken.balanceOf(address(this)) >= _amount, "Insufficient balance of origin Token");
 
         inputToken.approve(address(swapRouter), _amount);
+        console.log("Amount to swap:",_amount);
+        console.log("swap router allowance:",inputToken.allowance(_receiver,address(swapRouter)));
 
         ISwapRouter.ExactInputSingleParams memory params = ISwapRouter.ExactInputSingleParams({
             tokenIn: address(inputToken),

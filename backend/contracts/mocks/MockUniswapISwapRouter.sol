@@ -32,33 +32,33 @@ contract MockUniswapISwapRouter is ISwapRouter{
         address recipient = params.recipient;
 
 
-        console.log("exactInputSingle - address msg.sender : ", msg.sender);
-        console.log("exactInputSingle - address this : ", address(this));
-        console.log("exactInputSingle - tokenIn balance msg.sender : ", IERC20(tokenIn).balanceOf(msg.sender));
-        console.log("exactInputSingle - tokenIn balance this(address) : ", IERC20(tokenIn).balanceOf(address(this)));
-        console.log("exactInputSingle - tokenOut balance msg.sender : ", IERC20(tokenOut).balanceOf(msg.sender));
-        console.log("exactInputSingle - tokenOut balance this(address) : ", IERC20(tokenOut).balanceOf(address(this)));
-        console.log("exactInputSingle - atoken allowance msg.sender -> address(this) : ", IERC20(tokenIn).allowance(msg.sender,address(this)));
-        console.log("exactInputSingle - atoken allowance msg.sender -> recipient : ", IERC20(tokenIn).allowance(msg.sender,recipient));
+        console.log("exactInputSingle - address msg.sender: ", msg.sender);
+        console.log("exactInputSingle - address recipient: ", recipient);
+        console.log("exactInputSingle - before - tokenIn balance msg.sender: ", IERC20(tokenIn).balanceOf(msg.sender));
+        console.log("exactInputSingle - before - tokenIn balance recipient: ", IERC20(tokenIn).balanceOf(recipient));
+        console.log("exactInputSingle - before - tokenOut balance msg.sender: ", IERC20(tokenOut).balanceOf(msg.sender));
+        console.log("exactInputSingle - before - tokenOut balance recipient: ", IERC20(tokenOut).balanceOf(recipient));
 
         // check balance
         require (tokenIn.balanceOf(msg.sender) >= amountIn, "TokenIn Balance too low");
 
         //burn input token
-        ERC20Burnable(tokenIn).burnFrom(recipient,amountIn);
+        console.log("exactInputSingle - to be burn: ", amountIn);
+        ERC20Burnable(tokenIn).burnFrom(msg.sender,amountIn);
 
         //calculate output amount
         //feeTiers is given with a 10**6 factor
         amountOut = (params.amountIn * (10**6 - params.fee)) / 10**6 ;
+        console.log("exactInputSingle - amount received: ", amountOut);
 
         //mint output token and
         // supply AToken to msg.sender
         MockERC20(tokenOut).mint(recipient, amountOut);
 
-        console.log("exactInputSingle - tokenIn balance msg.sender : ", IERC20(tokenIn).balanceOf(msg.sender));
-        console.log("exactInputSingle - tokenIn balance this(address) : ", IERC20(tokenIn).balanceOf(address(this)));
-        console.log("exactInputSingle - tokenOut balance msg.sender : ", IERC20(tokenOut).balanceOf(msg.sender));
-        console.log("exactInputSingle - tokenOut balance this(address) : ", IERC20(tokenOut).balanceOf(address(this)));
+        console.log("exactInputSingle - after - tokenIn balance msg.sender: ", IERC20(tokenIn).balanceOf(msg.sender));
+        console.log("exactInputSingle - after - tokenIn balance recipient: ", IERC20(tokenIn).balanceOf(recipient));
+        console.log("exactInputSingle - after - tokenOut balance msg.sender: ", IERC20(tokenOut).balanceOf(msg.sender));
+        console.log("exactInputSingle - after - tokenOut balance recipient: ", IERC20(tokenOut).balanceOf(recipient));
 
 
         return (amountOut);

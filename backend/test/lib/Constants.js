@@ -17,9 +17,9 @@ module.exports = Object.freeze({
     
     //TOKEN amount constants
     TOKEN_INITIAL_SUPPLY :  BigInt("1000000")*BigInt("10")**BigInt("18"),
-    TOKENA_DEPOSIT_AMOUNT : BigInt("5000")*BigInt("10")**BigInt("18"),
+    TOKENA_DEPOSIT_AMOUNT : BigInt("50000")*BigInt("10")**BigInt("18"),
     TOKENA_WITHDRAW_AMOUNT : BigInt("100")*BigInt("10")**BigInt("18"),
-    TOKENB_DEPOSIT_AMOUNT :  BigInt("3000")*BigInt("10")**BigInt("18"),
+    TOKENB_DEPOSIT_AMOUNT :  BigInt("30000")*BigInt("10")**BigInt("18"),
     TOKENB_WITHDRAW_AMOUNT :  BigInt("200")*BigInt("10")**BigInt("18"),
     TOKEN_AMOUNT_ABOVE_BALANCE :  BigInt("999999999")*BigInt("10")**BigInt("18"),
     

@@ -2,7 +2,7 @@ const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers')
 const Constant = require("./Constants.js")
 const isLogEnable = true;
 
-async function deployDOApp_Fixture() {
+async function deploHodlup_Fixture() {
   const isLogEnable = false
   const [owner, account1, account2, account3, account4, account5, account6] = await ethers.getSigners();
   isLogEnable ? console.log(`owner : ${owner.address}`):{}
@@ -195,173 +195,13 @@ async function deploy_Prepare_One_Sell_DCA_Config_Fixture() {
   return { doApp, dataStorage, tokenA, tokenB, mockChainLinkAggregatorV3, owner, account1, account2, account3, account4, account5, account6, pairId };
 }
 
-async function deploy_Prepare_4_DCA_Config_Fixture() {
-  //deploy contracts
-  const {doApp, dataStorage, tokenA, tokenB, mockChainLinkAggregatorV3, owner, account1, account2, account3, account4, account5, account6, pairId }
-    = await loadFixture(deploy_AddATokenPair_MinToken_DepositToken_Fixture);
-
-  await dataStorage.connect(account1).addDCAConfig(
-    pairId,
-    Constant.DCA_CONFIG_1_IS_SWAP_TOKEN_A_FOR_TOKEN_B,
-    Constant.DCA_CONFIG_1_MIN,
-    Constant.DCA_CONFIG_1_MAX,
-    Constant.DCA_CONFIG_1_AMOUNT,
-    Constant.DCA_CONFIG_1_SCALING_FACTOR,
-    Constant.DCA_CONFIG_1_DELAY
-  )
-
-
-  await dataStorage.connect(account1).addDCAConfig(
-    pairId,
-    Constant.DCA_CONFIG_2_IS_SWAP_TOKEN_A_FOR_TOKEN_B,
-    Constant.DCA_CONFIG_2_MIN,
-    Constant.DCA_CONFIG_2_MAX,
-    Constant.DCA_CONFIG_2_AMOUNT,
-    Constant.DCA_CONFIG_2_SCALING_FACTOR,
-    Constant.DCA_CONFIG_2_DELAY
-  )
-
-  await dataStorage.connect(account2).addDCAConfig(
-    pairId,
-    Constant.DCA_CONFIG_3_IS_SWAP_TOKEN_A_FOR_TOKEN_B,
-    Constant.DCA_CONFIG_3_MIN,
-    Constant.DCA_CONFIG_3_MAX,
-    Constant.DCA_CONFIG_3_AMOUNT,
-    Constant.DCA_CONFIG_3_SCALING_FACTOR,
-    Constant.DCA_CONFIG_3_DELAY
-  )
-
-  await dataStorage.connect(account2).addDCAConfig(
-    pairId,
-    Constant.DCA_CONFIG_4_IS_SWAP_TOKEN_A_FOR_TOKEN_B,
-    Constant.DCA_CONFIG_4_MIN,
-    Constant.DCA_CONFIG_4_MAX,
-    Constant.DCA_CONFIG_4_AMOUNT,
-    Constant.DCA_CONFIG_4_SCALING_FACTOR,
-    Constant.DCA_CONFIG_4_DELAY
-  )
-  return { doApp, dataStorage, tokenA, tokenB, mockChainLinkAggregatorV3, owner, account1, account2, account3, account4, account5, account6, pairId };
-}
-
-async function deploy_Prepare_Multi_DCA_Config_Fixture() {
-  //deploy contracts
-  const {doApp, dataStorage, tokenA, tokenB, mockChainLinkAggregatorV3, owner, account1, account2, account3, account4, account5, account6, pairId }
-    = await loadFixture(deploy_AddATokenPair_MinToken_DepositToken_Fixture);
-
-  await dataStorage.connect(account1).addDCAConfig(
-    pairId,
-    Constant.DCA_CONFIG_1_IS_SWAP_TOKEN_A_FOR_TOKEN_B,
-    Constant.DCA_CONFIG_1_MIN,
-    Constant.DCA_CONFIG_1_MAX,
-    Constant.DCA_CONFIG_1_AMOUNT,
-    Constant.DCA_CONFIG_1_SCALING_FACTOR,
-    Constant.DCA_CONFIG_1_DELAY
-  )
-
-
-  await dataStorage.connect(account1).addDCAConfig(
-    pairId,
-    Constant.DCA_CONFIG_2_IS_SWAP_TOKEN_A_FOR_TOKEN_B,
-    Constant.DCA_CONFIG_2_MIN,
-    Constant.DCA_CONFIG_2_MAX,
-    Constant.DCA_CONFIG_2_AMOUNT,
-    Constant.DCA_CONFIG_2_SCALING_FACTOR,
-    Constant.DCA_CONFIG_2_DELAY
-  )
-
-  await dataStorage.connect(account2).addDCAConfig(
-    pairId,
-    Constant.DCA_CONFIG_3_IS_SWAP_TOKEN_A_FOR_TOKEN_B,
-    Constant.DCA_CONFIG_3_MIN,
-    Constant.DCA_CONFIG_3_MAX,
-    Constant.DCA_CONFIG_3_AMOUNT,
-    Constant.DCA_CONFIG_3_SCALING_FACTOR,
-    Constant.DCA_CONFIG_3_DELAY
-  )
-
-  await dataStorage.connect(account2).addDCAConfig(
-    pairId,
-    Constant.DCA_CONFIG_4_IS_SWAP_TOKEN_A_FOR_TOKEN_B,
-    Constant.DCA_CONFIG_4_MIN,
-    Constant.DCA_CONFIG_4_MAX,
-    Constant.DCA_CONFIG_4_AMOUNT,
-    Constant.DCA_CONFIG_4_SCALING_FACTOR,
-    Constant.DCA_CONFIG_4_DELAY
-  )
-
-  await dataStorage.connect(account3).addDCAConfig(
-    pairId,
-    Constant.DCA_CONFIG_5_IS_SWAP_TOKEN_A_FOR_TOKEN_B,
-    Constant.DCA_CONFIG_5_MIN,
-    Constant.DCA_CONFIG_5_MAX,
-    Constant.DCA_CONFIG_5_AMOUNT,
-    Constant.DCA_CONFIG_5_SCALING_FACTOR,
-    Constant.DCA_CONFIG_5_DELAY
-  )
-
-  await dataStorage.connect(account3).addDCAConfig(
-    pairId,
-    Constant.DCA_CONFIG_6_IS_SWAP_TOKEN_A_FOR_TOKEN_B,
-    Constant.DCA_CONFIG_6_MIN,
-    Constant.DCA_CONFIG_6_MAX,
-    Constant.DCA_CONFIG_6_AMOUNT,
-    Constant.DCA_CONFIG_6_SCALING_FACTOR,
-    Constant.DCA_CONFIG_6_DELAY
-  )
-
-  await dataStorage.connect(account4).addDCAConfig(
-    pairId,
-    Constant.DCA_CONFIG_7_IS_SWAP_TOKEN_A_FOR_TOKEN_B,
-    Constant.DCA_CONFIG_7_MIN,
-    Constant.DCA_CONFIG_7_MAX,
-    Constant.DCA_CONFIG_7_AMOUNT,
-    Constant.DCA_CONFIG_7_SCALING_FACTOR,
-    Constant.DCA_CONFIG_7_DELAY
-  )
-
-  await dataStorage.connect(account4).addDCAConfig(
-    pairId,
-    Constant.DCA_CONFIG_8_IS_SWAP_TOKEN_A_FOR_TOKEN_B,
-    Constant.DCA_CONFIG_8_MIN,
-    Constant.DCA_CONFIG_8_MAX,
-    Constant.DCA_CONFIG_8_AMOUNT,
-    Constant.DCA_CONFIG_8_SCALING_FACTOR,
-    Constant.DCA_CONFIG_8_DELAY
-  )
-
-  await dataStorage.connect(account5).addDCAConfig(
-    pairId,
-    Constant.DCA_CONFIG_9_IS_SWAP_TOKEN_A_FOR_TOKEN_B,
-    Constant.DCA_CONFIG_9_MIN,
-    Constant.DCA_CONFIG_9_MAX,
-    Constant.DCA_CONFIG_9_AMOUNT,
-    Constant.DCA_CONFIG_9_SCALING_FACTOR,
-    Constant.DCA_CONFIG_9_DELAY
-  )
-
-  await dataStorage.connect(account6).addDCAConfig(
-    pairId,
-    Constant.DCA_CONFIG_10_IS_SWAP_TOKEN_A_FOR_TOKEN_B,
-    Constant.DCA_CONFIG_10_MIN,
-    Constant.DCA_CONFIG_10_MAX,
-    Constant.DCA_CONFIG_10_AMOUNT,
-    Constant.DCA_CONFIG_10_SCALING_FACTOR,
-    Constant.DCA_CONFIG_10_DELAY
-  )
-
-
-  return { doApp, dataStorage, tokenA, tokenB, mockChainLinkAggregatorV3, owner, account1, account2, account3, account4, account5, account6, pairId };
-}
   
 
 module.exports = {
-  deployDOApp_Fixture,
+  deploHodlup_Fixture,  
   deploy_AddATokenPair_Fixture,
   deploy_AddATokenPair_MinToken_Fixture,
   deploy_AddATokenPair_MinToken_DepositToken_Fixture,
   deploy_Prepare_One_Buy_DCA_Config_Fixture,
-  deploy_Prepare_One_Sell_DCA_Config_Fixture,
-  deploy_Prepare_4_DCA_Config_Fixture,
-  deploy_Prepare_Multi_DCA_Config_Fixture
-  
+  deploy_Prepare_One_Sell_DCA_Config_Fixture
 }
